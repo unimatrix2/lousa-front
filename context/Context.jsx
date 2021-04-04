@@ -1,7 +1,9 @@
 import { useReducer, useContext, createContext } from 'react';
 import { user } from './reducers/user';
+import { offline } from './reducers/offline';
 const initialState = {
-  user: {}
+  user: {},
+	offline: false
 };
 
 const Context = createContext({});
@@ -12,7 +14,7 @@ const combineReducers = (...reducers) => (state, action) => {
 };
 
 const Provider = ({children}) => {
-  const [state, dispatch] = useReducer(combineReducers(user), initialState);
+  const [state, dispatch] = useReducer(combineReducers(user, offline), initialState);
   const value = { state, dispatch };
 	return <Context.Provider value={value}>{children}</Context.Provider>;
 }
