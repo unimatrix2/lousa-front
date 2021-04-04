@@ -33,10 +33,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    dispatch({
-      type: 'PROVIDE_USER',
-      payload: user
-    })
+    if (user) {
+      dispatch({
+        type: 'PROVIDE_USER',
+        payload: user
+      });
+    }
   }, [user]);
 
   // Styling
