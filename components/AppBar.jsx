@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   makeStyles,
   AppBar,
@@ -12,10 +12,12 @@ import {
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import red from '@material-ui/core/colors/red';
 import { Context } from '../context/Context';
+import axios from 'axios';
 
 export default function MainAppBar() {
 
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
+  const [logout, setLogout] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -34,6 +36,15 @@ export default function MainAppBar() {
       color: red[700]
     }
   }));
+
+  useEffect(() => {
+    if (logout) {
+      dispatch({
+        type: 'PROVIDE_USER',
+        payload: {}
+      })
+    }
+  }, [logout])
   
   const classes = useStyles();
 
@@ -47,6 +58,13 @@ export default function MainAppBar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const destroySession = async () => {
+    await axios.get(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/auth/logout`, {
+      withCredentials: true
+    });
+    setLogout(true);
   };
 
   return (
@@ -80,7 +98,7 @@ export default function MainAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={async () => { handleClose(); await destroySession(); }}>Logout</MenuItem>
               </Menu>
             </div>
         </Toolbar>
