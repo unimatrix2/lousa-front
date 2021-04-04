@@ -3,7 +3,7 @@ import { user } from './reducers/user';
 import { offline } from './reducers/offline';
 const initialState = {
   user: {},
-	offline: false
+	offline: false,
 };
 
 const Context = createContext({});

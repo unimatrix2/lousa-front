@@ -5,4 +5,4 @@ export function offline(state, action) {
     default:
       return state;
     }
-  };
+};
