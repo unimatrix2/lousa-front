@@ -14,7 +14,7 @@ import red from '@material-ui/core/colors/red';
 import { Context } from '../context/Context';
 import axios from 'axios';
 
-export default function MainAppBar() {
+export default function MainAppBar({ showLogin }) {
 
   const { state, dispatch } = useContext(Context);
   const [logout, setLogout] = useState(false)
@@ -86,7 +86,15 @@ export default function MainAppBar() {
                 <AccountCircle className={classes.accountCircle} />
                 <Typography>{state.user.nickname}</Typography>
               </IconButton> : ''}
-              {!state.user?.nickname ? <Button color="inherit">Acessar</Button> : ''}
+              {!state.user?.nickname ?
+              <>
+              <Button color="inherit" onClick={() => showLogin(false)}>
+              Registrar
+              </Button>
+              <Button color="inherit" onClick={() => showLogin(true)}>
+              Acessar
+              </Button>
+              </> : ''}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
