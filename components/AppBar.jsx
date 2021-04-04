@@ -34,6 +34,9 @@ export default function MainAppBar() {
     offline: {
       flexGrow: 1,
       color: red[700]
+    },
+    accountCircle: {
+      marginRight: theme.spacing(1)
     }
   }));
 
@@ -80,7 +83,8 @@ export default function MainAppBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircle className={classes.accountCircle} />
+                <Typography>{state.user.nickname}</Typography>
               </IconButton> : ''}
               {!state.user?.nickname ? <Button color="inherit">Acessar</Button> : ''}
               <Menu
