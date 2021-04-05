@@ -14,7 +14,7 @@ import red from '@material-ui/core/colors/red';
 import { Context } from '../context/Context';
 import axios from 'axios';
 
-export default function MainAppBar({ showLogin }) {
+export default function MainAppBar({ showLogin, signupOut }) {
 
   const { state, dispatch } = useContext(Context);
   const [logout, setLogout] = useState(false)
@@ -91,7 +91,7 @@ export default function MainAppBar({ showLogin }) {
               <Button color="inherit" onClick={() => showLogin(false)}>
               Registrar
               </Button>
-              <Button color="inherit" onClick={() => showLogin(true)}>
+              <Button color="inherit" onClick={() => {showLogin(true); signupOut(true)}}>
               Acessar
               </Button>
               </> : ''}
