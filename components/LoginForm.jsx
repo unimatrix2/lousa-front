@@ -10,6 +10,7 @@ export default function LoginForm({ classes }) {
 	const { state, dispatch } = useContext(Context);
 	const [user, setUser] = useState();
 	const router = useRouter();
+
 	const signupSchema = yup.object({
     nickname: yup
       .string()
@@ -63,7 +64,7 @@ export default function LoginForm({ classes }) {
           withCredentials: true
         });
         setUser(user.data);
-        setTimeout(() => router.push('/board'), 300)
+        router.push('/board');
       } catch (error) {
         if (error.response.data?.type === 'User-Invalid-Credentials') {
           helpers.setFieldError('nickname', 'Usuário ou senha incorretos');
@@ -91,7 +92,7 @@ export default function LoginForm({ classes }) {
               onChange={formik.handleChange}
               disabled={!formik.values.nickname && Boolean(formik.values.email)}
             />
-            <Typography>ou</Typography>
+            <Typography variant="h6" align="center">ou</Typography>
             <TextField
               required
               fullWidth
@@ -123,7 +124,6 @@ export default function LoginForm({ classes }) {
             <Button
               variant="contained"
               color="primary"
-              className={classes.submitButton}
               type="submit"
             >
               Entrar
