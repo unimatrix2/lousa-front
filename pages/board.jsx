@@ -11,12 +11,15 @@ export default function Board() {
 		if (!state.user?.nickname) {
 			router.push('/');
 		}
-	}, [])
+	}, [state])
 
-	return (
-		<>
-			<MainAppBar />
-			<Typography>{JSON.stringify(state)}</Typography>
-		</>
-	)
+	if (state.user?.nickname) {
+		return (
+			<>
+				<MainAppBar />
+				<Typography>{JSON.stringify(state)}</Typography>
+			</>
+		)
+
+	} else return <></>
 }
