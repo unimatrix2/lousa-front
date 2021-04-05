@@ -59,15 +59,13 @@ export default function SignupForm({ classes }) {
     validationSchema: signupSchema,
     onSubmit: async (values, helpers) => {
       try {
-        delete values.confirmPassword;
-        const user = await axios.post(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/auth/signup`, values, {
+        const mapped = { nickname: values.nickname, email: values.email, password: values.password }
+        const user = await axios.post(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/auth/signup`, mapped, {
           withCredentials: true
         });
-        values.confirmPassword = '';
         setUser(user.data);
-        setTimeout(() => router.push('/board'), 300)
+        router.push('/board');
       } catch (error) {
-        values.confirmPassword = '';
         if (error.response.data?.type === 'User-Repo-Create-nickname') {
           helpers.setFieldError('nickname', 'Já existe um usuário com esse apelido');
         }
@@ -143,7 +141,6 @@ export default function SignupForm({ classes }) {
             <Button
               variant="contained"
               color="primary"
-              className={classes.submitButton}
               type="submit"
             >
               Cadastrar
