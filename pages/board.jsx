@@ -34,19 +34,13 @@ export default function Board() {
 			justifyContent: !error ? 'space-between' : 'center'
 		},
 		card: {
-			maxWidth: theme.breakpoints.values.md,
+			maxWidth: theme.breakpoints.values.sm,
 			padding: theme.spacing(2),
 			margin: theme.spacing(3),
 			flexGrow: 1,
 			display: 'flex',
 			flexDirection: 'column',
-		},
-		content: {
-			alignSelf: 'center',
-		},
-		owner: {
-			alignSelf: 'flex-end',
-			marginTop: theme.spacing(2)
+			justifyContent: 'center',
 		},
 		error: {
 			alignSelf: 'center'
@@ -55,27 +49,27 @@ export default function Board() {
 
 	const classes = useStyles();
 
-		 if (!error) { return (
-			<>
-				<MainAppBar />
-				<Container className={classes.container}>
+	if (!error) { return (
+		<>
+			<MainAppBar />
+			<Container className={classes.container}>
 				{posts ? posts.map((post, idx) => <Zoom in timeout={600 + (idx*100)} key={post._id}>
 					<Card className={classes.card}>
-						<Typography variant="h5" className={classes.content}>{post.content}</Typography>
-						<Typography variant="body2" color="textSecondary" className={classes.owner}>- {post.owner.nickname}</Typography>
-				</Card>
+						<Typography variant="h5" align="center">{post.content}</Typography>
+						<Typography variant="body2" color="textSecondary" align="right">- {post.owner.nickname}</Typography>
+					</Card>
 				</Zoom>) : ''}
-				</Container>
-				<Fab color="primary" aria-label="add-post" className={classes.fab}>
-					<Add />
-				</Fab>
-			</>
+			</Container>
+			<Fab color="primary" aria-label="add-post" className={classes.fab}>
+				<Add />
+			</Fab>
+		</>
 		)} else return (
-			<>
+		<>
 			<MainAppBar />
 			<Container className={classes.container}>
 				<Typography variant="h5" color="error">Houve um erro ao obter os posts, tente novamente mais tarde.</Typography>
 			</Container>
-			</>
+		</>
 		)
 }
