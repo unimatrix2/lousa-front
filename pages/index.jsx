@@ -15,6 +15,7 @@ import MainAppBar from '../components/AppBar';
 import SignupForm from '../components/SignupForm';
 import LoginForm from '../components/LoginForm';
 import { useRouter } from 'next/router';
+import useAuth from '../hooks/withUser';
 
 export default function Home() {
   // Get context, router & define states
@@ -25,31 +26,7 @@ export default function Home() {
   const router = useRouter();
   
   // Side effects
-  useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/auth/token`, {
-      withCredentials: true
-    })
-      .then(data => {
-        setUser(data.data);
-      })
-      .catch(err => {
-        if (err.message === 'Network Error') {
-          dispatch({
-            type: 'OFFLINE',
-            payload: true
-          });
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      dispatch({
-        type: 'PROVIDE_USER',
-        payload: user
-      });
-    }
-  }, [user]);
+  useAuth();
 
   // Styling
   const useStyles = makeStyles((theme) => ({
