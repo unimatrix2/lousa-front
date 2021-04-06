@@ -8,7 +8,7 @@ import { Context } from '../context/Context';
 
 export default function LoginForm({ classes }) {
 	const { state, dispatch } = useContext(Context);
-	const [user, setUser] = useState();
+	const [user, setUser] = useState(null);
 	const router = useRouter();
 
 	const signupSchema = yup.object({
@@ -16,7 +16,6 @@ export default function LoginForm({ classes }) {
       .string()
       .trim()
       .matches(/[^.$]/, 'Não pode conter "." ou "$"')
-      .min(5, 'Precisa conter ao menos 5 caracteres')
       .max(20, 'Precisa conter no máximo 20 caracteres'),
     email: yup
       .string()
@@ -25,12 +24,7 @@ export default function LoginForm({ classes }) {
     password: yup
       .string()
       .trim()
-      .matches(/[A-Z]/, 'Ao menos uma letra maiúscula')
-      .matches(/[a-z]/, 'Ao menos uma letra minúscula')
-      .matches(/[!@#%^&*+=_?-]/, 'Ao menos um caractere especial')
       .matches(/[^.$]/, 'Não pode conter "." ou "$"')
-      .min(8, 'Ao menos 8 caracteres')
-      .max(50, 'No máximo 50 caracteres')
       .required('Campo obrigatório'),
   });
 
