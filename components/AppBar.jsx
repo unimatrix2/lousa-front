@@ -13,6 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import red from '@material-ui/core/colors/red';
 import { Context } from '../context/Context';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function MainAppBar({ showLogin, signupOut }) {
 
@@ -20,6 +21,7 @@ export default function MainAppBar({ showLogin, signupOut }) {
   const [logout, setLogout] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,6 +69,9 @@ export default function MainAppBar({ showLogin, signupOut }) {
     await axios.get(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/auth/logout`, {
       withCredentials: true
     });
+    if (window.location !== process.env.NEXT_PUBLIC_APP_OWN_URL) {
+      router.push('/')
+    }
     setLogout(true);
   };
 
@@ -74,7 +79,7 @@ export default function MainAppBar({ showLogin, signupOut }) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.offline}>{state.offline ? 'Server is not responding, data won\'t be fetched' : ''}</Typography>
+          <Typography variant="h6" className={classes.offline}>{state.offline ? 'O aplicativo está fora do ar' : ''}</Typography>
             <div>
               {state.user?.nickname ? <IconButton
                 aria-label="account of current user"
