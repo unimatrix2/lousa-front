@@ -79,6 +79,7 @@ export default function MainAppBar({ showLogin, signupOut }) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          {window.location.href.includes('board') ? <Button color="inherit" onClick={() => router.push('/')}>Home</Button> : ''}
           <Typography variant="h6" className={classes.offline}>{state.offline ? 'O aplicativo está fora do ar' : ''}</Typography>
             <div>
               {state.user?.nickname ? <IconButton
