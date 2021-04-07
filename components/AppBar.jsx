@@ -69,7 +69,7 @@ export default function MainAppBar({ showLogin, signupOut }) {
     await axios.get(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/auth/logout`, {
       withCredentials: true
     });
-    if (window.location !== process.env.NEXT_PUBLIC_APP_OWN_URL) {
+    if (router.pathname.includes('board')) {
       router.push('/')
     }
     setLogout(true);
@@ -79,7 +79,7 @@ export default function MainAppBar({ showLogin, signupOut }) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {window.location.href.includes('board') ? <Button color="inherit" onClick={() => router.push('/')}>Home</Button> : ''}
+          {router.pathname.includes('board') ? <Button color="inherit" onClick={() => router.push('/')}>Home</Button> : ''}
           <Typography variant="h6" className={classes.offline}>{state.offline ? 'O aplicativo está fora do ar' : ''}</Typography>
             <div>
               {state.user?.nickname ? <IconButton
