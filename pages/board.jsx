@@ -6,19 +6,25 @@ import { Add } from '@material-ui/icons';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import useAuth from '../hooks/withUser';
+import PostForm from '../components/PostForm';
 
 export default function Board() {
 	const { state } = useContext(Context);
 	const router = useRouter();
 	const [posts, setPosts] = useState(null);
 	const [error, setError] = useState(false);
+	const [showForm, setShowForm] = useState(false);
 
 	useAuth();
 
+	const makeQuery = () => {
+		axios.get(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/post/board`, { withCredentials: true })
+					.then(data => setPosts(data.data))
+					.catch(() => setError(true));
+	}
+
 	useEffect(() => {
-			axios.get(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/post/board`, { withCredentials: true })
-				.then(data => setPosts(data.data))
-				.catch(() => setError(true));
+		makeQuery();
 	}, []);
 
 	const useStyles = makeStyles(theme => ({
@@ -53,16 +59,18 @@ export default function Board() {
 		<>
 			<MainAppBar />
 			<Container className={classes.container}>
-				{posts ? posts.map((post, idx) => <Zoom in timeout={600 + (idx*100)} key={post._id}>
+				{posts ? posts.map((post, idx) => <Zoom in timeout={600 + (idx * 100)} key={post._id}>
 					<Card className={classes.card}>
 						<Typography variant="h5" align="center">{post.content}</Typography>
 						<Typography variant="body2" color="textSecondary" align="right">- {post.owner.nickname}</Typography>
 					</Card>
 				</Zoom>) : ''}
 			</Container>
-			<Fab color="primary" aria-label="add-post" className={classes.fab}>
+			<Fab color="primary" aria-label="add-post" className={classes.fab} onClick={() => setShowForm(true)}>
 				<Add />
 			</Fab>
+			<PostForm open={showForm} setError={setError} close={setShowForm} query={makeQuery} state={posts} />
+
 		</>
 		)} else return (
 		<>
